@@ -141,7 +141,7 @@ const run = async () => {
   const endTime = performance.now()
   const execTime = (endTime - startTime) / 1000 // Convert to seconds
 
-  process.stdout.write(`\n${execTime.toFixed(1)}s  | ${skipped} results skipped\n`)
+  process.stdout.write(`\n${execTime.toFixed(1)}s | ${skipped} results skipped\n`)
 
   // get metric names
   const metrics = runs[0].map((run) => run.label)
