@@ -67,6 +67,18 @@ const getResults = (data) => {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
+const printHelp = () => {
+  console.log(`
+  speedtest runner
+
+  --url, -u: URL to test
+  --count, -c: Number of runs
+  --strategy, -s: mobile (default) or desktop
+
+  example: node pagespeed.js --url=https://google.com --count=5
+  `)
+}
+
 const arguments = process.argv.slice(2)
 const options = {}
 
@@ -105,13 +117,25 @@ const url = options.url || options.u
 const count = options.count || options.c || defaults.count
 const strategy = options.strategy || options.s || defaults.strategy
 
+if (typeof fetch === 'undefined') {
+  console.log('This script needs node v18 or higher to run')
+  process.exit(1)
+}
+
+if (arguments.includes('--help') || arguments.includes('-h')) {
+  printHelp()
+  process.exit(0)
+}
+
 if (strategy !== 'mobile' && strategy !== 'desktop') {
   console.error('Please provide a valid strategy: mobile or desktop.')
+  printHelp()
   process.exit(1)
 }
 
 if (!url) {
   console.error('Please provide a URL with --url or -u flag.')
+  printHelp()
   process.exit(1)
 }
 
